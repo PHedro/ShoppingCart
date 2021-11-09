@@ -29,3 +29,15 @@ class ShoppingCartTestCase(TestCase):
 
         assert receipt[0] == "banana - 1 - €1.10"
         assert receipt[1] == "kiwi - 1 - €3.00"
+
+    def test_receipt_ordering(self):
+        self.cart.add_item("banana", 1)
+        self.cart.add_item("kiwi", 1)
+        self.cart.add_item("banana", 1)
+        self.cart.add_item("apple", 1)
+
+        receipt = self.cart.print_receipt()
+
+        assert receipt[0] == "banana - 2 - €2.20"
+        assert receipt[1] == "kiwi - 1 - €3.00"
+        assert receipt[2] == "apple - 1 - €1.00"

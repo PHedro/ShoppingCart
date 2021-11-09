@@ -15,12 +15,14 @@ class ShoppingCart(abc.ShoppingCart):
     def print_receipt(self) -> typing.List[str]:
         lines = []
 
-        for item in self._items.items():
-            price = self._get_product_price(item[0]) * item[1]
+        for product, quantity in self._items.items():
+            price = self._get_product_price(product) * quantity
 
-            price_string = "€%.2f" % price
-
-            lines.append(item[0] + " - " + str(item[1]) + " - " + price_string)
+            lines.append("{product} - {quantity} - {price_string}".format(
+                product=product,
+                quantity=str(quantity),
+                price_string="€%.2f" % price
+            ))
 
         return lines
 
