@@ -5,10 +5,11 @@ from . import abc
 
 
 class ShoppingCart(abc.ShoppingCart):
-    def __init__(self):
+    def __init__(self, currency="€"):
         self._items = OrderedDict()
         self.receipt = []
         self.total_price = 0.0
+        self.currency = currency
 
     def add_item(self, product_code: str, quantity: int):
         # thought on changing the quantity to float to better represent
@@ -28,7 +29,7 @@ class ShoppingCart(abc.ShoppingCart):
 
     def _total_entry(self):
         total_entry = "TOTAL - - - {total_price_string}".format(
-            total_price_string="€%.2f" % self.total_price
+            total_price_string="%s%.2f" % (self.currency, self.total_price)
         )
         self.receipt.append(total_entry)
         return total_entry
@@ -42,7 +43,7 @@ class ShoppingCart(abc.ShoppingCart):
             self.receipt.append("{product} - {quantity} - {price_string}".format(
                 product=product,
                 quantity=quantity,
-                price_string="€%.2f" % price
+                price_string="%s%.2f" % (self.currency, price)
             ))
 
         self._total_entry()

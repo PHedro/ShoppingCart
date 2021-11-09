@@ -15,6 +15,15 @@ class ShoppingCartTestCase(TestCase):
         self.assertEqual(receipt[0], "apple - 1 - €1.00")
         self.assertEqual(receipt[1], "TOTAL - - - €1.00")
 
+    def test_currency_as_pounds(self):
+        cart = ShoppingCart(currency="£")
+        cart.add_item("apple", 1)
+
+        receipt = cart.print_receipt()
+
+        self.assertEqual(receipt[0], "apple - 1 - £1.00")
+        self.assertEqual(receipt[1], "TOTAL - - - £1.00")
+
     def test_add_item_with_multiple_quantity(self):
         self.cart.add_item("apple", 2)
 
