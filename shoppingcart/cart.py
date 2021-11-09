@@ -22,20 +22,20 @@ class ShoppingCart(abc.ShoppingCart):
 
             price_string = "€%.2f" % price
 
-            lines.append(item[0] + " - " + str(item[1]) + ' - ' + price_string)
+            lines.append(item[0] + " - " + str(item[1]) + " - " + price_string)
 
         return lines
 
     def _get_product_price(self, product_code: str) -> float:
         price = 0.0
 
-        if product_code == 'apple':
+        if product_code == "apple":
             price = 1.0
 
-        elif product_code == 'banana':
+        elif product_code == "banana":
             price = 1.1
 
-        elif product_code == 'kiwi':
+        elif product_code == "kiwi":
             price = 3.0
 
         return price
