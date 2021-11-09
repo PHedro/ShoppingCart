@@ -1,18 +1,16 @@
 import typing
+from collections import OrderedDict
 
 from . import abc
 
 
 class ShoppingCart(abc.ShoppingCart):
     def __init__(self):
-        self._items = dict()
+        self._items = OrderedDict()
 
     def add_item(self, product_code: str, quantity: int):
-        if product_code not in self._items:
-            self._items[product_code] = quantity
-        else:
-            q = self._items[product_code]
-            self._items[product_code] = q + quantity
+        quantity += self._items.get(product_code, 0)
+        self._items.update({product_code: quantity})
 
     def print_receipt(self) -> typing.List[str]:
         lines = []
