@@ -1,0 +1,2 @@
+PRODUCTS = "products"
+CURRENCY = "currency"

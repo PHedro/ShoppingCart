@@ -1,0 +1,9 @@
+{
+  "products": {
+    "apple": 3.0,
+    "banana": 4.1,
+    "kiwi": 6.0,
+    "papaya": 9.0
+  },
+  "currency": "£"
+}

@@ -1,15 +1,35 @@
+import json
 import typing
 from collections import OrderedDict
 
 from . import abc
+from .constants import PRODUCTS, CURRENCY
+
+
+class ShoppingCartFactory:
+    prices = dict()
+    currency = "€"
+
+    def __init__(self, configuration_json: str):
+        self.load_configurations(configuration_json=configuration_json)
+
+    def load_configurations(self, configuration_json: str):
+        with open(configuration_json) as config_file:
+            loaded_data = json.load(config_file)
+        self.prices = loaded_data.get(PRODUCTS)
+        self.currency = loaded_data.get(CURRENCY, "€")
+
+    def create_shopping_cart(self):
+        return ShoppingCart(prices=self.prices, currency=self.currency)
 
 
 class ShoppingCart(abc.ShoppingCart):
-    def __init__(self, currency="€"):
+    def __init__(self, prices: dict, currency: str):
         self._items = OrderedDict()
         self.receipt = []
         self.total_price = 0.0
         self.currency = currency
+        self.prices_cached = prices
 
     def add_item(self, product_code: str, quantity: int):
         # thought on changing the quantity to float to better represent
@@ -50,15 +70,4 @@ class ShoppingCart(abc.ShoppingCart):
         return self.receipt, self.total_price
 
     def _get_product_price(self, product_code: str) -> float:
-        price = 0.0
-
-        if product_code == "apple":
-            price = 1.0
-
-        elif product_code == "banana":
-            price = 1.1
-
-        elif product_code == "kiwi":
-            price = 3.0
-
-        return price
+        return self.prices_cached.get(product_code, 0.0)
